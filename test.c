@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <string.h>
-
-
+#include <stdlib.h>
+#include <time.h>
+#include <math.h> //biblioteca para crear datos matematicos
 #include "esp_event.h"
 #include "esp_log.h"
 #include "esp_system.h"
@@ -12,8 +13,7 @@
 #include "lwip/sys.h"
 #include "nvs_flash.h"
 #include "lwip/sockets.h" // Para sockets
-
-#include "math.h" //biblioteca para crear datos matematicos
+#include "driver/gpio.h" //para el led
 
 //Credenciales de WiFi
 
@@ -53,12 +53,15 @@ void generate_sensor_data(int n, char *buffer) {
     // Simular sensor de batería
     int batt = rand() % 100 + 1;
 
-    // Crear el mensaje en formato JSON
+    // Crear el mensaje en formato JSON debe coincidir el buffer de la com en la fun de la iniciaciòn del socker
     snprintf(buffer, 256, 
         "{\"acc_x\": %.2f, \"acc_y\": %.2f, \"acc_z\": %.2f, \"temp\": %.2f, \"hum\": %.2f, \"pres\": %.2f, \"co\": %.2f, \"batt\": %d}",
         acc_x, acc_y, acc_z, temp, hum, pres, co, batt);
 }
 
+
+
+//esto queda igual
 void event_handler(void* arg, esp_event_base_t event_base,
                           int32_t event_id, void* event_data) {
     if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_STA_START) {
@@ -80,7 +83,7 @@ void event_handler(void* arg, esp_event_base_t event_base,
         xEventGroupSetBits(s_wifi_event_group, WIFI_CONNECTED_BIT);
     }
 }
-
+//esto tambien queda igual
 void wifi_init_sta(char* ssid, char* password) {
     s_wifi_event_group = xEventGroupCreate();
 
@@ -134,7 +137,7 @@ void wifi_init_sta(char* ssid, char* password) {
         WIFI_EVENT, ESP_EVENT_ANY_ID, instance_any_id));
     vEventGroupDelete(s_wifi_event_group);
 }
-
+// esta fun queda igual
 void nvs_init() {
     esp_err_t ret = nvs_flash_init();
     if (ret == ESP_ERR_NVS_NO_FREE_PAGES ||
@@ -145,7 +148,7 @@ void nvs_init() {
     ESP_ERROR_CHECK(ret);
 }
 
-
+// aqui debemos hacer los cambios en las condiciones de "conexión"
 void socket_tcp(){
     struct sockaddr_in server_addr;
     server_addr.sin_family = AF_INET;
