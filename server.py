@@ -57,5 +57,5 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             data = conn.recv(512)  # Recibe hasta 1024 bytes del cliente
             if data:
                 print("Recibido: ", data.decode('utf-8'))
-                respuesta = "tu mensaje es chancho: " + data.decode('utf-8')
+                respuesta = "tu mensaje es: " + data.decode('utf-8')
                 conn.sendall(respuesta.encode('utf-8'))  # Envia la respuesta al cliente
