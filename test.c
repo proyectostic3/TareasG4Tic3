@@ -1,8 +1,7 @@
 #include <stdio.h>
 #include <string.h>
-#include <stdlib.h>
-#include <time.h>
-#include <math.h> //biblioteca para crear datos matematicos
+
+
 #include "esp_event.h"
 #include "esp_log.h"
 #include "esp_system.h"
@@ -13,18 +12,13 @@
 #include "lwip/sys.h"
 #include "nvs_flash.h"
 #include "lwip/sockets.h" // Para sockets
-#include "driver/gpio.h" //para el led
 
 //Credenciales de WiFi
 
 #define WIFI_SSID "LAB.SISTEMAS DE COMUNICACIONES"
 #define WIFI_PASSWORD "Comunicaciones"
-#define SERVER_IP     "192.168.0.170" // IP del servidor
+#define SERVER_IP     "192.168.0.168" // IP del servidor
 #define SERVER_PORT   1234
-
-// Pin del LED
-#define LED_PIN GPIO_NUM_2
-
 
 // Variables de WiFi
 #define WIFI_CONNECTED_BIT BIT0
@@ -33,35 +27,7 @@ static const char* TAG = "WIFI";
 static int s_retry_num = 0;
 static EventGroupHandle_t s_wifi_event_group;
 
-// Funciones para generar datos simulados
-float get_random_float(float min, float max) {
-    return min + (float)rand() / (float)(RAND_MAX) * (max - min);
-}
 
-void generate_sensor_data(int n, char *buffer) {
-    // Simular acelerómetro
-    float acc_x = 2 * sin(2 * M_PI * 0.001 * n);
-    float acc_y = 3 * cos(2 * M_PI * 0.001 * n);
-    float acc_z = 10 * sin(2 * M_PI * 0.001 * n);
-
-    // Simular sensor THCP
-    float temp = get_random_float(5.0, 30.0);
-    float hum = get_random_float(30.0, 80.0);
-    float pres = get_random_float(1000.0, 1200.0);
-    float co = get_random_float(30.0, 200.0);
-
-    // Simular sensor de batería
-    int batt = rand() % 100 + 1;
-
-    // Crear el mensaje en formato JSON debe coincidir el buffer de la com en la fun de la iniciaciòn del socker
-    snprintf(buffer, 256, 
-        "{\"acc_x\": %.2f, \"acc_y\": %.2f, \"acc_z\": %.2f, \"temp\": %.2f, \"hum\": %.2f, \"pres\": %.2f, \"co\": %.2f, \"batt\": %d}",
-        acc_x, acc_y, acc_z, temp, hum, pres, co, batt);
-}
-
-
-
-//esto queda igual
 void event_handler(void* arg, esp_event_base_t event_base,
                           int32_t event_id, void* event_data) {
     if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_STA_START) {
@@ -83,7 +49,7 @@ void event_handler(void* arg, esp_event_base_t event_base,
         xEventGroupSetBits(s_wifi_event_group, WIFI_CONNECTED_BIT);
     }
 }
-//esto tambien queda igual
+
 void wifi_init_sta(char* ssid, char* password) {
     s_wifi_event_group = xEventGroupCreate();
 
@@ -137,7 +103,7 @@ void wifi_init_sta(char* ssid, char* password) {
         WIFI_EVENT, ESP_EVENT_ANY_ID, instance_any_id));
     vEventGroupDelete(s_wifi_event_group);
 }
-// esta fun queda igual
+
 void nvs_init() {
     esp_err_t ret = nvs_flash_init();
     if (ret == ESP_ERR_NVS_NO_FREE_PAGES ||
@@ -148,7 +114,7 @@ void nvs_init() {
     ESP_ERROR_CHECK(ret);
 }
 
-// aqui debemos hacer los cambios en las condiciones de "conexión"
+
 void socket_tcp(){
     struct sockaddr_in server_addr;
     server_addr.sin_family = AF_INET;
@@ -161,7 +127,7 @@ void socket_tcp(){
         ESP_LOGE(TAG, "Error al crear el socket");
         return;
     }
-    
+
     // Conectar al servidor
     if (connect(sock, (struct sockaddr *)&server_addr, sizeof(server_addr)) != 0) {
         ESP_LOGE(TAG, "Error al conectar");
@@ -169,53 +135,21 @@ void socket_tcp(){
         return;
     }
 
-    // Encender el LED al iniciar la comunicación
-    gpio_set_level(LED_PIN, 1);
+    // Enviar mensaje "Hola Mundo"
+    send(sock, "hola mundo", strlen("hola mundo"), 0);
 
-    if (connect(sock, (struct sockaddr *)&server_addr, sizeof(server_addr)) != 0) {
-        ESP_LOGE(TAG, "Error al conectar");
-        close(sock);
-        gpio_set_level(LED_PIN, 0);  // Apagar el LED si falla la conexión
+    // Recibir respuesta
+
+    char rx_buffer[128];
+    int rx_len = recv(sock, rx_buffer, sizeof(rx_buffer) - 1, 0);
+    if (rx_len < 0) {
+        ESP_LOGE(TAG, "Error al recibir datos");
         return;
     }
-    // Recibir la frecuencia de muestreo desde el servidor
-    char frecuencia[4];
-    int len = recv(sock, frecuencia, sizeof(frecuencia) - 1, 0);
-    if (len > 0) {
-        frecuencia[len] = '\0';
-        int frec = atoi(frecuencia);  // Convertir a entero
-        if (frec == 100) {
-            sampling_delay = 10000;  // 100 Hz
-        } else if (frec == 500) {
-            sampling_delay = 2000;   // 500 Hz
-        } else if (frec == 1000) {
-            sampling_delay = 1000;   // 1000 Hz
-        }
-        ESP_LOGI(TAG, "Frecuencia recibida: %d Hz", frec);
-    } else {
-        ESP_LOGE(TAG, "Error al recibir la frecuencia");
-        close(sock);
-        gpio_set_level(LED_PIN, 0);
-        return;
-    }
-    char buffer[256];
-    int n = 0;
-    while (1) {
-        generate_sensor_data(n, buffer);
-        n++;
-
-        send(sock, buffer, strlen(buffer), 0); // enviar datos al servidor
-        ESP_LOGI(TAG, "Datos enviados: %s", buffer);
-        // gacer parpadear el LED durante el envioo de datos
-        gpio_set_level(LED_PIN, 0);
-        usleep(50000);  // apagar durante 50ms
-        gpio_set_level(LED_PIN, 1);
-
-        usleep(sampling_delay);
-    }
-
+    ESP_LOGI(TAG, "Datos recibidos: %s", rx_buffer);
+    
+    // Cerrar el socket
     close(sock);
-    gpio_set_level(LED_PIN, 0); // Apagar el LED al terminar
 }
 
 
@@ -223,11 +157,6 @@ void socket_tcp(){
 void app_main(void){
     nvs_init();
     wifi_init_sta(WIFI_SSID, WIFI_PASSWORD);
-
-    // Configurar el LED
-    gpio_pad_select_gpio(LED_PIN);
-    gpio_set_direction(LED_PIN, GPIO_MODE_OUTPUT);
-
     ESP_LOGI(TAG,"Conectado a WiFi!\n");
     socket_tcp();
 }
