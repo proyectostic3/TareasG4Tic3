@@ -7,42 +7,42 @@ Esta comunicación es capaz de iniciarse o detenerse respecto al envio de datos,
 
 La medición con el sensor BME688 se configuró para que el sensor BME688 obtenga los datos de temperatura y humedad, empleando comunicación I2C para la comunicación con el sensor.
 
-## Compilación e implementación
+### Compilación e implementación
 
 Considerar que para implementar de manera correcta este código se debe utilizar ESP-IDF, además de configurar y actualizar las credenciales Wi-Fi y la IP del servidor en el archivo.
 
 # Funciones clave
 
-## Inicialización del sensor
+### Inicialización del sensor
 
 ```
 esp_err_t sensor_init(void);
 ```
 
-## Lectura de temperatura
+### Lectura de temperatura
 
 ```
 uint32_t bme_read_data(void);
 ```
 
-## Lectura de humedad
+### Lectura de humedad
 
 ```
 uint32_t bme_read_hum_data(void);
 ```
 
-## Conexión TCP y envío de datos
+### Conexión TCP y envío de datos
 
 ```
 void socket_tcp_CicloPrincipal(void);
 ```
 
-## Control de Wi-Fi
+### Control de Wi-Fi
 
 ```
 void wifi_init_sta(char* ssid, char* password);
 ```
 
-### Descripción del código en Python
+# Descripción del código en Python
 
-## Interfaz
+### Interfaz
