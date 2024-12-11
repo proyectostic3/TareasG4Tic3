@@ -13,31 +13,31 @@ Considerar que para implementar de manera correcta este código se debe utilizar
 
 ## Funciones clave
 
-#Inicialización del sensor
+# Inicialización del sensor
 
 ```
 esp_err_t sensor_init(void);
 ```
 
-#Lectura de temperatura
+# Lectura de temperatura
 
 ```
 uint32_t bme_read_data(void);
 ```
 
-#Lectura de humedad
+# Lectura de humedad
 
 ```
 uint32_t bme_read_hum_data(void);
 ```
 
-#Conexión TCP y envío de datos
+# Conexión TCP y envío de datos
 
 ```
 void socket_tcp_CicloPrincipal(void);
 ```
 
-#Control de Wi-Fi
+# Control de Wi-Fi
 
 ```
 void wifi_init_sta(char* ssid, char* password);
@@ -45,4 +45,4 @@ void wifi_init_sta(char* ssid, char* password);
 
 ### Descripción del código en Python
 
-##Interfaz
+## Interfaz
