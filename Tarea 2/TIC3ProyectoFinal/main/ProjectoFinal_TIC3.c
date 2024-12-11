@@ -44,8 +44,8 @@
 
 //Credenciales de WiFi
 
-#define WIFI_SSID "CEFOP LAB 206" //"Telsur_MAER" //  "LAB.SISTEMAS DE COMUNICACIONES"
-#define WIFI_PASSWORD  "00holo206"  //"C86C879F39F6X" // "Comunicaciones"
+#define WIFI_SSID     "LAB.SISTEMAS DE COMUNICACIONES"
+#define WIFI_PASSWORD "Comunicaciones"
 #define SERVER_IP     "192.168.1.113" // IP del servidor
 #define SERVER_PORT   1234
 
