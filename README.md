@@ -5,7 +5,7 @@
 <h1>Descripción proyecto Final (Tarea 2)</h1>
 
 ## Descripción general del código en c
-Para el funcionamiento del código se debe ingresar al [código del ESP32](https://github.com/proyectostic3/TareasG4Tic3/tree/main/Tarea%202/TIC3ProyectoFinal/main), el cual hace que este último realice la conexión TCP a través de una red Wi-Fi con el servidor que se encuentra en la raspberry py, en esta conexión se envían los datos de temperatura y humedad al servidor especificado. El LED parpadea durante el envío de datos (cuando ocurre la conexción TCP).
+Para el funcionamiento del código en c se debe ingresar al [código del ESP32](https://github.com/proyectostic3/TareasG4Tic3/tree/main/Tarea%202/TIC3ProyectoFinal/main/ProjectoFinal_TIC3.c), el cual hace que este último realice la conexión TCP a través de una red Wi-Fi con el servidor que se encuentra en la raspberry py, en esta conexión se envían los datos de temperatura y humedad al servidor especificado. El LED parpadea durante el envío de datos (cuando ocurre la conexción TCP).
 
 Esta comunicación es capaz de iniciarse o detenerse respecto al envio de datos, además de que se puede cambiar frecuencia de muestreo ( de 10, 2, 1 segundos ). Es capaz cambiar el modo de envio entre el modo promediado y el modo instantáneo. 
 
@@ -48,5 +48,5 @@ void wifi_init_sta(char* ssid, char* password);
 ```
 
 # Descripción del código en Python
-
+Para el funcionamiento del código en c se debe ingresar al [código de la Raspberry Py](https://github.com/proyectostic3/TareasG4Tic3/blob/main/Tarea%202/InterfazPython/ServerInterface.py),
 ### Interfaz
