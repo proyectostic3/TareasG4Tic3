@@ -1,4 +1,8 @@
-<h1>Descripción proyecto Final</h1>
+### Integrantes:
+- Tomás Troncoso
+- Javiera Mora 
+
+<h1>Descripción proyecto Final (Tarea 2)</h1>
 
 ## Descripción general del código en c
 Para el funcionamiento del código se debe ingresar al [código del ESP32](https://github.com/proyectostic3/TareasG4Tic3/tree/main/Tarea%202/TIC3ProyectoFinal/main), el cual hace que este último realice la conexión TCP a través de una red Wi-Fi con el servidor que se encuentra en la raspberry py, en esta conexión se envían los datos de temperatura y humedad al servidor especificado. El LED parpadea durante el envío de datos (cuando ocurre la conexción TCP).
