@@ -1,4 +1,4 @@
-Este es un repositorio que contiene el desarrollo de la Tarea 1 y 2 por parte del grupo 4, de la asignatura Taller de Integración TIC con código 549353-1. Sus **integrantes** son:
+Este es un repositorio que contiene el desarrollo de la Tarea 1 y 2 por parte del grupo 4, de la asignatura **Taller de Integración TIC** con código 549353-1. Sus **integrantes** son:
 - Tomás Troncoso
 - Javiera Mora 
 
