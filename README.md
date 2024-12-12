@@ -47,6 +47,6 @@ void socket_tcp_CicloPrincipal(void);
 void wifi_init_sta(char* ssid, char* password);
 ```
 
-# Descripción del código en Python
+## Descripción del código en Python
 Para el funcionamiento del código en c se debe ingresar al [código de la Raspberry Py](https://github.com/proyectostic3/TareasG4Tic3/blob/main/Tarea%202/InterfazPython/ServerInterface.py),
 ### Interfaz
