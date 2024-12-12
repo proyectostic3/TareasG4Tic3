@@ -1,3 +1,4 @@
+Este es un repositorio que contiene el desarrollo de la Tarea 1 y Tarea 2 por parte del grupo 4, de la asignatura 
 ### Integrantes:
 - Tomás Troncoso
 - Javiera Mora 
