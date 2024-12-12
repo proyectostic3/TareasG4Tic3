@@ -46,6 +46,6 @@ void wifi_init_sta(char* ssid, char* password);
 ```
 
 ## Descripción del código en Python
-Para visualizar el código en Python se debe ingresar al [código de la Raspberry Py](https://github.com/proyectostic3/TareasG4Tic3/blob/main/Tarea%202/InterfazPython/ServerInterface.py), es mediante este código que se realiza el promedio entre el maximo y minimo valor obtenido a una tasa promedio de 500 Hz tanto de la temperatura como de la humedad, estos valores se pueden visualizar graficados a la parte izquierda de la interfaz. 
+Para visualizar el código en Python se debe ingresar al [código de la Raspberry Py](https://github.com/proyectostic3/TareasG4Tic3/blob/main/Tarea%202/InterfazPython/ServerInterface.py), es mediante este código que se realiza el promedio entre el maximo y el último valor obtenido a una tasa promedio de 500 Hz tanto de la temperatura como de la humedad, estos valores se pueden visualizar graficados a la parte izquierda de la interfaz si se activa el botón ''Enviar valor promedio de datos''. 
 
-Por otra parte en la parte derecha se encuentran los valores medidos, como tambien una serie de botones que puedes 
+Por otra parte en la parte derecha se encuentran los valores medidos, como tambien una serie de botones que pueden realizan ciertas acciones. Una de ella es la vizualización de los datos instantáneos que mide el sensor BME688, mostrando el valor maximo medido como tambien el valor del útimo valor medido y el respectivo promedio. 
